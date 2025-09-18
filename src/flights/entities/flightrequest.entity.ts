@@ -15,7 +15,7 @@ travelDate:number
 @CreateDateColumn({type:"timestamp",default:()=> "CURRENT_TIMESTAMP"})
 createdAt:Date
 @ManyToOne(() => User, (user) => user.flightrequests)
-user:User[]
+user:User
 @OneToMany(() => FlightPrice, (flightprice) => flightprice.flightrequest)
 flightprice:FlightPrice[]
 }

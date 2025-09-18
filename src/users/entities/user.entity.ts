@@ -13,7 +13,7 @@ name:string
 email:string
 @Column()
 @Exclude()
-password:number
+password:string
 @CreateDateColumn({type:"timestamp",default:()=> "CURRENT_TIMESTAMP"})
 createdAt:Date
 @OneToMany(() => FlightRequest, (flightrequests) => flightrequests.user)

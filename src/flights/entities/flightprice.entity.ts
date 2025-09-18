@@ -15,7 +15,7 @@ currency:number
 @Column({type:"timestamp",default:()=> "CURRENT_TIMESTAMP"})
 checkedAt:Date
 @ManyToOne(() => User, (user) => user.flightPrice)
-user:User[]
+user:User
 @ManyToMany(() => FlightRequest, (flightrequest) => flightrequest.flightprice)
-flightrequest:FlightRequest[]
+flightrequest:FlightRequest
 }
