@@ -11,7 +11,7 @@ origin:string
 @Column()
 destination:string
 @Column()
-travelDate:number
+travelDate:Date
 @CreateDateColumn({type:"timestamp",default:()=> "CURRENT_TIMESTAMP"})
 createdAt:Date
 @ManyToOne(() => User, (user) => user.flightrequests)

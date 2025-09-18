@@ -1,34 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { FlightsService } from './flights.service';
 import { CreateFlightDto } from './dto/create-flight.dto';
-import { UpdateFlightDto } from './dto/update-flight.dto';
+import { AuthGuard } from 'src/users/guards/auth.guard';
+import type { jWTPayloadType } from 'src/utils/types';
+import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 
-@Controller('flights')
+@Controller('/api/flights')
 export class FlightsController {
   constructor(private readonly flightsService: FlightsService) {}
 
   @Post()
-  create(@Body() createFlightDto: CreateFlightDto) {
-    return this.flightsService.create(createFlightDto);
+  @UseGuards(AuthGuard)
+  public createNewRequest(@Body() body: CreateFlightDto,@CurrentUser() payload:jWTPayloadType) {
+    return this.flightsService.createRequest(body, payload.id);
   }
 
   @Get()
-  findAll() {
-    return this.flightsService.findAll();
+  public getAllRequest() {
+    return this.flightsService.getAll() ;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.flightsService.findOne(+id);
+  public getSingleRequest(@Param('id',ParseIntPipe) id: number) {
+    return this.flightsService.getSingleRequest(id) ;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFlightDto: UpdateFlightDto) {
-    return this.flightsService.update(+id, updateFlightDto);
-  }
+  
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.flightsService.remove(+id);
-  }
 }

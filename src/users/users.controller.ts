@@ -23,7 +23,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(AuthGuard)
-  public findAll() {
+  public getAllUsers() {
     return this.usersService.getAll();
   }
 
