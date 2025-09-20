@@ -55,9 +55,26 @@ constructor(
 
 
 
-  public async getSingleRequest(id: number) {
-  const request = await this._flightRequestsRepository.findOne({where:{id} ,relations:["user"]}) //get request with his user in response
-  if(!request) throw new NotFoundException("Request not found")
-    return request
+  public async getFlightHistory(userId:number) {
+  const request = await this._flightRequestsRepository.find({where:{user:{id:userId}} ,relations:["flightprice"],order:{createdAt:"DESC"}}) //get request with his user in response
+  if(!request.length) throw new NotFoundException("'No flight history found for this user')")
+   
+      return request.map((req) =>{
+        return {
+      id: req.id,
+      origin: req.origin,
+      destination: req.destination,
+      travelDate: req.travelDate,
+      createdAt: req.createdAt,
+      results:(req.flightprice??[]).map((price)=>({
+        airline: price.airline,
+        price: price.price,
+        currency: price.currency,
+        checkedAt: price.checkedAt,
+      }))
+        }
+      })
+
+
   }
 }

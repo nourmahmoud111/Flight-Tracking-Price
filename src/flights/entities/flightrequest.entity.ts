@@ -1,5 +1,5 @@
 import { User } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { FlightPrice } from "./flightprice.entity";
 
 @Entity({name:"FlightRequest"})
@@ -16,6 +16,6 @@ travelDate:Date
 createdAt:Date
 @ManyToOne(() => User, (user) => user.flightrequests,{onDelete: 'CASCADE',})
 user:User
-@OneToOne(() => FlightPrice, (flightprice) => flightprice.flightrequest)
+@OneToMany(() => FlightPrice, (flightprice) => flightprice.flightrequest)
 flightprice:FlightPrice[]
 }

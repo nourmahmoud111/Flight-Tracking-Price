@@ -20,9 +20,11 @@ export class FlightsController {
     return this.flightsService.getAll() ;
   }
 
-  @Get(':id')
-  public getSingleRequest(@Param('id',ParseIntPipe) id: number) {
-    return this.flightsService.getSingleRequest(id) ;
+
+  @Get('history')
+  @UseGuards(AuthGuard)
+  public getHistory(@CurrentUser() payload:jWTPayloadType) {
+    return this.flightsService.getFlightHistory( payload.id)  ;
   }
 
   
